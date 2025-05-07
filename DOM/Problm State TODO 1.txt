@@ -1,0 +1,7 @@
+The problem with State TODO 1 is that it clears the DOM every 2ish seconds and rewrites the DOM which 
+is very inefficient 
+Now question is, how does is calculate what all has changed ?
+Has a todo been marked as complete ?
+Has a todo been removed from the backend ?
+
+By remebering the old todo (know as virtual TODO)

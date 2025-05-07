@@ -1,0 +1,2 @@
+In React, the concept of side effects encompasses any operations that reach outside the scope functional scope of React component. These
+operations can affect other components, interact with browser, or perform asynchronous data fetching 

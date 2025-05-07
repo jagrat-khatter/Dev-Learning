@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function addTodo()
+        {
+            const title=document.getElementById("title").value;// This already string so no need to parse from any function
+            const description=document.getElementById("description").value;
+            console.log(title , description); 
+            const childdiv = document.createElement("div") ;
+            childdiv.id= "outerdiv";
+            childdiv.innerHTML = title ;           
+            document.getElementById("container").appendChild(childdiv) ;
+            // const grandchild1= document.createElement("div");
+            // grandchild1.innerHTML= title;
+            const grandchild2 = document.createElement("div");
+            grandchild2.innerHTML= description;
+            const grandchild3 = document.createElement("div");
+            grandchild3.innerHTML=`<button>Mark down TODO</button>`;
+            //document.getElementById("outerdiv").appendChild(grandchild1);
+            document.getElementById("outerdiv").appendChild(grandchild2);
+            document.getElementById("outerdiv").appendChild(grandchild3);
+            childdiv.id="";// we are making the id of this div null because we want to make the id's of new div formed to be outerdiv
+        }
+    </script>
+</head>
+<body>
+    <input placeholder="title" id="title" type="text"></input><br><br>
+    <input placeholder="description" id="description" type="text"></input><br><br>
+    <button onclick="addTodo()">Add TODO</button>
+    <div id="container"></div>
+
+</body>
+</html>

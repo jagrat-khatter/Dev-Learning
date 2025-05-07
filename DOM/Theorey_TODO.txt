@@ -1,0 +1,16 @@
+What we did in calculator's was different because the same element was overwritten again and again 
+by the DOM manipulation , for that we used .innerHTML but 
+what you can do is (----).innerHTML=` 
+<div>${title}</div>       // this syntax is called tempelate literals , they allow you to embed expresssions inside string literals ,making it easier to create strings that include varaiables and expresssions 
+<div>${desciption}</div>
+<button> Add the todo</button>
+`
+
+// Now if you overwrite it the past content will get deleted so
+document.getElementById("container").innerHTML=` <div>
+                                                            <div>${title}</div>
+                                                            <div>${description}</div>
+                                                            <button> Mark as done</button>
+                                                             ${document.getElementById("container").innerHTML} </div>`;
+but this will create problem as we are appending everything in same element
+// better way to do this is document.createElement("div")

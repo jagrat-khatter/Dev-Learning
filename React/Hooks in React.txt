@@ -1,0 +1,66 @@
+These functions that start with use are called hooks.
+
+Hooks in react are function that allow you to "hook into" a React state and lifecycle features from function components
+
+Lifecycle events classicaly in class based components were mounting ,Updating(re-rendering) , Unmounting
+Now the functionality  \of these lifecycle methods can be accessed by Hooks
+
+
+useState - Let's you describe the state of your app Whenever state Updates, it triggers a rerender 
+which finally results in DOM update
+
+useEffect - The 'useEffect' hook is a feature in React, a popular Javascript library for building user interfacses
+. It allows you to perform side effects in function components. Side effects are operations that can 
+affect other components or can't affect other components or can't be done during rendering, such as data
+fetching, subscriptions, or manually changing the DOM in React components.
+
+The 'useEffect' hook serves the same purpose as 'componentDidMount' 'componentDidUpdate', and 
+'componentWillUnmount' in React class components, but unified into a single API . 
+
+useMemo - useMemo is used to optimize performance by memoizing (caching) the result of an expensive 
+computation. It ensures that the computation is only re-executed when its dependencies change, 
+avoiding unnecessary recalculations during renders, also used to memoize variables
+
+Feature                            useMemo                                 useEffect
+
+Purpose                      Memory expensive operations          Handle side effects(eg. fetch, DOM Updates)
+
+When it runs              During render(Synchronously)            After render (asynchronously)
+
+Triggers Re-render               No                                 Yes,if it Updates
+
+Dependencychanges           Recompute the value                     Re-runs tehe effect
+
+Use Case                  Optimizing performance for            Fetching data subscriptions,
+                           expensive calculations               DOM Updates
+                
+*** Many of times useMemo use can be replaced by useEffect
+*** BUt it is better to optimize using useMemo
+
+useCallback - It is used to memorize functions, which can help in optimizing the performance of
+you application, especially in cases involving child components that rely on reference equality 
+to prevent unnecessary renders.
+
+To prevent unnecessary re-renders in React, you need to address two key issues:
+
+1. Ensure Stable References
+Why?
+React compares objects, arrays, and functions by reference. If the reference changes, React considers 
+it a new value, even if the content is the same.
+We also need to memoize variables this is because const only ensures that the variable reference cannot
+be reassigned, but it does not guarantee that the reference remains stable across renders in React.
+
+
+How?
+Use useMemo to memoize values (e.g., objects, arrays).
+Use useCallback to memoize functions.
+
+2. Prevent React from Creating New Props Objects
+Why?
+On every re-render, React creates a new props object for child components, even if the values inside the 
+props are the same.
+React.memo performs a shallow comparison of the props object, so a new props object will trigger a re-render.
+How?
+Memoize the entire props object using useMemo to ensure its reference remains stable across renders.
+
+3. Function Components should also be memoized then only they will compare 

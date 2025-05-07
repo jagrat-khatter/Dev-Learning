@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let globalId=1;
+        let todoState =[];
+        let oldTodoState =[];
+
+        function markAsDone(todoid)
+        {
+            const parent = document.getElementById(todoid); 
+            parent.children[2].innerHTML="DONE !" ;
+        }
+        function removeTodo(todo)
+        {
+            const element = document.getElementById(todo["id"]);
+            element.parent.remo
+        }
+        function createTodo(title , description , id)
+        {
+            const child = document.createElement("div");
+            const gchild1 = document.createElement("div");
+            gchild1.innerHTML = title;
+            const gchild2 = document.createElement("div");
+            gchild2.innerHTML = description;
+            const gchild3 = document.createElement("button") ;
+            gchild3.innerHTML = "Mark as done" ;
+            gchild3.setAttribute("Onclick" , `markAsDone(${id})`); // Onlcick attribute expects string that needs to executed
+            child.appendChild(gchild1);
+            child.appendChild(gchild2);
+            child.appendChild(gchild3);
+            child.setAttribute("id" , id); // the id attribute is set to the value of the id variable.
+            return child;
+
+        }
+        // logic such as create child , remove child , update child is written by React DOM
+        function updateDomAccToState(state)       // now this function will decide either to create a todo, remove a todo or update the todo
+        {                                         // what react does is it tells what the difference is and how it is implemented is by React DOM
+            const parent = document.getElementById("container");
+            parent.innerHTML=""; // clear that div
+            for(let i=0;i<state.length;i++)
+            {
+                parent.appendChild(createChild(state[i].title , state[i].description , globalId++)); // use bracket syntax when property name is dynamic or not a vlaid identifier (e.g contains special charcaters or spaces)
+            }
+        }
+        function addTodo() // this logic written by us developers 
+        {
+            const title = document.getElementById("title").value; // it's a string so no need of parsing
+            const description = document.getElementById("desciption").value;
+            todoState.push({
+                title : title ,
+                description : description ,
+                id : globalId++
+            })
+            updateDomAccToState(todoState);
+        }
+        
+    </script>
+</head>
+<body>
+    <input placeholder="title" id="title" type="text"></input><br><br>
+    <input placeholder="description" id="description" type="text"></input><br><br>
+    <button onclick="addTodo()"> ADD TODO</button>
+    <div id="container"></div>
+
+
+</body>
+</html>

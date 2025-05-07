@@ -1,0 +1,44 @@
+The document object is a global object that provides access to the content of the web page.
+It allows you to manipulate the structure, style, and content of the document.
+You can refernce specific elements of html by its varaious methods 
+
+The document.querySelector method returns the first element within the document that 
+matches the specified CSS selector(s).
+
+The document.querySelectorAll method returns a static NodeList of all elements within 
+the document that match the specified CSS selector(s).
+
+document.querySelector("#ID");
+document.querySelector(".Class") they give access to elements with respective id and class
+
+const element = document.querySelector("div");
+Explanation: This code selects the first <div> element in the document.
+
+const elements = document.querySelectorAll("div");
+Explanation: This code selects all <div> elements in the document and returns them as
+a NodeList.
+
+What are id's used for ?
+They let you access elements via the DOM API
+Can you use id's to do CSS - Yes
+But what do you use it for usually - Javascript
+
+If you do not specify any method in fetch function by default it uses fetch
+
+
+A debounce function is a technique used to limit the rate at which a function is executed. 
+It ensures that a function is not called too frequently, especially in response to events 
+that can occur rapidly, such as user input events
+
+The clearTimeout function is used to cancel a timeout that was previously established by calling
+setTimeout. When you call setTimeout, it returns a timeout ID that can be used to reference
+the timeout. By passing this timeout ID to clearTimeout, you can cancel the timeout, preventing
+the function specified in setTimeout from being executed.
+
+After the both TODO variants 
+
+"What if there is a server where these to-dos are put? 
+What if you update a to-do from your mobile app? 
+You will get back the new array of to-dos on the front end. 
+How will you update the DOM then? You only have a to-do function.
+You don't have an update to-do or remove to-do function yet.

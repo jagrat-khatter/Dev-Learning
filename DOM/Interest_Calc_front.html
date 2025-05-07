@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let timeoutId;
+        function debouncingCalculate()
+        {
+            clearTimeout(timeoutId); // this will pop the timer running with this ID outside callstack
+            timeoutId = setTimeout (function(){  // you get back timeoutId immediately even if the time ha snot passed
+                Calculate();
+            } , 1000)
+        }
+        async function Calculate()
+        {
+            const p = parseInt(document.getElementById("principal").value);
+            const r = parseFloat(document.getElementById("rate").value);
+            const t = parseFloat(document.getElementById("time").value);
+            const res = await fetch(`https://cf40cdde-70e8-4136-adff-977e42aed585-00-1wni6ghrrrb44.sisko.replit.dev/?principal=${p}&rate=${r}&time=${t}`);
+            const final = await res.text();
+            const ans = parseFloat(final);
+            const element  = document.getElementById("finalResult");
+            element.innerHTML = `Your interest is ${ans}` ;
+        }
+    </script>
+</head>
+<body>
+    <label> Principal</label>
+    <input id="principal" placeholder="principal" oninput="debouncingCalculate()">
+    <br><br>
+    <label> Rate</label>
+    <input id="rate" placeholder="rate" oninput="debouncingCalculate()">
+    <br><br>
+    <label> Time</label>
+    <input id="time" placeholder="time" oninput="debouncingCalculate()">
+    <div id="finalResult"></div>
+
+</body>
+</html>

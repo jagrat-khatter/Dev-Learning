@@ -1,0 +1,6 @@
+useState - Let's you describe the state of your app Whenever the state updates, it triggers a re-render which finally results in DOM
+update 
+
+useEffect - The 'useEffect' hook is a feature in React. It allows you to perform side effects in function 
+components. Sideeffects are operations that can affect other components or can't be done during rendering 
+, such as datafetching, subscriptions or, manually changing the DOM in React components

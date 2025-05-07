@@ -1,0 +1,3 @@
+Read this after state_TODO
+
+A thing which combines the state array with some logic on how to render it 

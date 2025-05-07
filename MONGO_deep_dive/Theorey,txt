@@ -1,0 +1,29 @@
+Express server are transient can be up or down , but database is a central place (ideologicaly) which is 
+up 100% , 
+So why do we need servers or backends
+Why don't we let user hit the database directly ?
+What extra does the HTTP server provide exactly ?
+
+1. Databases were created using protocols that browser don't understand .(small reason)
+2. Databases don't have granual access as a first class citizen. Very hard to do user specific access to them .Give access pf certain data and do not give access to some other data.
+3. There are some databases (firebase) that let you get rid of the HTTP-server and try their best to give granual access
+
+Databases usually allow access to 4 primitives
+CRUD - Create Data , Read Data , Upadte Data , Delete Data 
+
+ORM - an ORM stands for Object-Relational Mapper
+
+. It's a programming technique that allows you to interact with a database using an object-oriented paradigm, rather than writing raw SQL queries.   
+(Basically ORM is library to talk to DataBases, For mongoDB most popular is moongoose but eventually we'll prisma for every DB be it relational or non relational )
+
+In mongoose , first you have to define the schema
+This sounds counter intuitive since mongodb is schemaless ?
+That is true ,but mongoose(library in express) makes you define schema for things like autocompletions /
+Validating data before it goes in the DB to make sure you're doing things right
+Schemaless Dbs can be very dangerous , using schemas in mongo makes it slightly less
+Dangerous
+But through the GUI Compass you can add data without following a certain schema
+
+Cluster - A machine where multiple DBs can operate
+DataBase - A place where multiple tables can be stored
+Table - A place where entry of simimlar relevence are stored

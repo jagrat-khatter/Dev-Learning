@@ -1,0 +1,57 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let state ={
+            count : 0
+        }
+        function onButtonPress()
+        {
+            state.count ++;
+            document.getElementById("btn").innerHTML = "Counter " + state.count;
+        }
+    </script>
+</head>
+<body>
+    <button id="btn" onclick="onButtonPress()">Counter 0</button>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="buttonParent"></div>
+    <script>
+        let state={
+            count :0
+        } // you need to define initial state in react
+        function onButtonPress()//state change should trigger rerender
+        {
+            state.count++; // you need to define this in react
+            buttonComponentReRender();// this thing react will take care of 
+        }
+        function buttonComponentReRender()
+        {
+            document.getElementById("buttonParent").innerHTML = "";
+            const component = buttonComponent(state.count);
+            document.getElementById("buttonParent").appendChild(component);
+        } // this thing react will take care of 
+        function buttonComponent(count)
+        {
+            const button = document.createElement("button");
+            button.innerHTML=`Counter ${count}`;
+            button.setAttribute("onclick" , 'onButtonPress()');
+            return button;
+        } // you need to define your component in react
+
+        buttonComponentReRender()
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+A Build Tool:
+Vite (French for "fast") is a build tool that aims to provide a faster and more efficient development experience for modern web projects.   
+It's designed to be especially quick for projects that use frameworks like React, Vue, and Svelte.   
+Dev Server and Bundler:
+Vite acts as both a development server and a production bundler.
+In development mode, it leverages native ES modules and HTTP to serve your code.
+In production, it uses Rollup to bundle your code for optimized deployment.   
+Focus on Speed:
+Vite's core philosophy is to significantly improve the speed of development, particularly during the development phase.
+
+
+waltercode.medium.com
+
+It achieves this through:
+Native ES Modules: Modern browsers support native ES modules (import/export syntax), allowing Vite to serve your code directly without bundling it all at once.   
+On-Demand Compilation: Vite only compiles modules when they are requested by the browser, leading to faster startup times and hot module replacement (HMR).   
+How Vite Uses an HTTP Server in Development Mode:
+
+Development Server:
+When you run vite dev or npm run dev, Vite starts a lightweight HTTP server.
+This server serves your source files directly to the browser.
+Native ES Modules:
+Instead of bundling all your JavaScript code into a single file, Vite serves individual modules (files) as the browser requests them.   
+The browser uses import statements to fetch these modules.
+Hot Module Replacement (HMR):
+When you make changes to your code, Vite's HTTP server detects those changes and sends updates to the browser.
+The browser then updates the affected modules without requiring a full page reload.
+This makes development much faster and more efficient.
+HTTP Requests:
+The browser is making many small HTTP requests to the vite dev server, each time it needs a new module.
+Because the browser is making these requests, that is why you can see the changes live in your browser.

@@ -1,0 +1,10 @@
+- state -> how current state of the webpage or webpage small part.( like 5 new people msged
+ you hence the new true value of webpage is content is changed)(state may or maynot come from DB)
+
+- component -> part of a webpage which has dynamic(variable) content.(like notifications of msg,
+ or the msg itself)
+
+- Role of react -> make state - component connection seamless. Calculate state difference, 
+re-render(reload) component(small part of webpage) accn to new state. React is basically serving
+new need of internet which is dynamic content.React make us do most things with Js .. Is 
+this correct -- Also where the App function is called, can u elaborate more on App

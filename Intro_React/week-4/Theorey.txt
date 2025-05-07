@@ -1,0 +1,6 @@
+When you have to create a dynamic website 
+You write a lot of JS code that does DOM manipulation
+
+So basically inde.html is somewhat empty at the beginning and html is being injected via JavaScript
+
+using usestate we told react ki bhai keep a concious watch in this as this will update the DOM

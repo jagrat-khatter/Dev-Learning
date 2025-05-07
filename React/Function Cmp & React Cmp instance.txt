@@ -1,0 +1,54 @@
+Let's relate the "function component" vs. "React component instance" distinction to the mistake you
+ made in the original code:
+
+function App() {
+    // ...
+
+    function WrapperComponent({ innerComponent }) {
+        // create a div which has border
+        return (
+            <div style={{ border: '2px solid black' }}>
+                <innerComponent></innerComponent> {/* Incorrect rendering */}
+            </div>
+        );
+    }
+
+    function TextComponent() {
+        return <div>Hi there</div>;
+    }
+
+    return (
+        <>
+            <WrapperComponent innerComponent={TextComponent} />
+        </>
+    );
+}
+Explanation of the Mistake:
+
+1.  Passing TextComponent (Function Component):
+
+When you wrote <WrapperComponent innerComponent={TextComponent} />, you correctly passed the function component definition TextComponent as a prop to WrapperComponent.
+At this point, innerComponent inside WrapperComponent held the function TextComponent.
+
+2.  Incorrect Rendering Attempt:
+
+Inside WrapperComponent, you then tried to render innerComponent using <innerComponent></innerComponent>.
+This is where the error occurred. You treated innerComponent (which was the function component definition TextComponent) as if it were an HTML tag or a string.
+You were essentially telling React to render a raw function as a DOM element, which React doesn't know how to do.
+
+3.  Correct Rendering (React Component Instance):
+
+To render the TextComponent function component instance, you needed to use <innerComponent />.
+This tells React to invoke the innerComponent function (which is TextComponent) and render the JSX that it returns.
+Analogy:
+
+Imagine TextComponent as a recipe for a cake.
+When you passed TextComponent to WrapperComponent, you passed the recipe.
+When you used <innerComponent></innerComponent>, you were trying to put the recipe directly into the oven, which wouldn't work.
+When you used <innerComponent />, you were telling the oven to use the recipe to bake a cake, which is the correct way to do it.
+
+In short :TextComponent was a React component (function component) whose syntax to render an instance of
+ it is <TextComponent></TextComponent> or <TextComponent />.
+
+innerComponent was a prop holding a React component (function component) definition. To render an 
+instance of it, you use the syntax <innerComponent />.(Refernc. wrapper-component)
