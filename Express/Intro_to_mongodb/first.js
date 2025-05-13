@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 
  
-mongoose.connect("mongodb+srv://Admin101:jagrat123@cluster0.ibywd.mongodb.net/");
+mongoose.connect("mongodb+srv://Admin101:{password}@cluster0.ibywd.mongodb.net/");
 
 const User = mongoose.model('Users' ,{ Name :String , Email : String , Password : String }) ;
 // User is varaible name reference to the Mongoose model. It is used in your application code to
