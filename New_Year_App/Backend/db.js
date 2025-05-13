@@ -5,7 +5,7 @@ const schemaDB = new mongoose.Schema({
     completed : Boolean
 })
 
-mongoose.connect('mongodb+srv://Admin101:jagrat123@cluster0.ibywd.mongodb.net/Todo_app')
+mongoose.connect('mongodb+srv://Admin101:{password}@cluster0.ibywd.mongodb.net/Todo_app')
 const Todo = mongoose.model('Todo', schemaDB);
 
 module.exports={
