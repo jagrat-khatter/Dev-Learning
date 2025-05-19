@@ -29,7 +29,7 @@ When it runs              During render(Synchronously)            After render (
 
 Triggers Re-render               No                                 Yes,if it Updates
 
-Dependencychanges           Recompute the value                     Re-runs tehe effect
+Dependencychanges           Recompute the value                     Re-runs the effect
 
 Use Case                  Optimizing performance for            Fetching data subscriptions,
                            expensive calculations               DOM Updates
@@ -64,3 +64,18 @@ How?
 Memoize the entire props object using useMemo to ensure its reference remains stable across renders.
 
 3. Function Components should also be memoized then only they will compare 
+
+*** While using useCallback make sure to add state variable in the dependency array or use syntax 
+like setCount(c => c+1) to use the latest value of state , not the value which was used when function 
+was defined first time (If state changes which was used in function then function should be again defined)
+
+
+useRef - Is used to create ref. to a component
+                       &
+// This useRef method is more preffered for tracking renders,counts,timers or DOM Nodes than 
+// using state variables or global variables
+// If you used state to track the render count, updating the count would itself cause another 
+// re-render, te case when count is used outside handleReRender . In the above case we are 
+// only using useState for forced re-render
+
+// Talking about global variable we have initialize it outside the export function which i disadvantage
