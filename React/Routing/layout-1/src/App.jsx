@@ -17,8 +17,11 @@ function App() {
         <Route path="study/neet/class12" element={<Class12Program/>} />
         <Route path="study/" element={<LandingPage/>} />
         <Route path="*" element={<NotFoundPage />} />
-     </Route>
+        {/* If the URL starts with /study/ and does not match any of the defined child routes 
+        Then <NotFoundPage /> will be rendered inside the layout. */}
+      </Route>
      <Route path="/" element={<div>Hello</div>}/>
+     <Route path="*" element={<div>Content not found</div>}></Route>
     </Routes>
     
     </BrowserRouter>
@@ -57,8 +60,16 @@ function App() {
 
 export default App
 // Theorey :
-// On using <a href=""></a> syntax itt was redering HTML te whole page again so we we not 
+// On using <a href=""></a> syntax it was redering HTML te whole page again so we we not 
 // benifitting from single page routing 
 // Two components we can use for actual routing are Link and useNaviagate
 // Use useNavigate instead of <Link> when you need to navigate programmatically in
 // response to an event or logic, not just a user clicking a link.
+
+
+// <Outlet /> is a placeholder in your Layout component.
+// When a nested (child) route matches, React Router will render the matched child route’s 
+// component at the position of <Outlet /> inside the parent (Layout).
+
+// <Outlet /> is meaningful only in components rendered by parent routes that have nested 
+// child routes.
