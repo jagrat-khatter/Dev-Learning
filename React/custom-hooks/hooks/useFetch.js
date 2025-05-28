@@ -11,7 +11,10 @@ function useFetch(){
         fetchData();
     } , [])
 
-    return post;
+    return post; // first this returns happen then Updates are commited to DOM (post=null)
+    // Then this useEffect runs // setPost changes state varaibele
+    // again this useFetch runs post is again return with upadted state 
+    // But this time useEffect does not run 
     
 }
 

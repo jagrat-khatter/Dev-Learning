@@ -7,6 +7,8 @@ import App1 from '../Components/useCounter_hook' // actual function used was APP
 // exported fromthat file so we can call it whatever we want in this file 
 import App2 from '../Components/useFetch'
 import App3 from '../Components/GenruseFetch'
+import App4 from '../Components/GenericRe-Fetch'
+import App5 from '../Components/use-Prev'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,7 +17,9 @@ function App() {
     <>
     {/* <App1 /> */}
     {/* <App2 /> */}
-    <App3 />
+    {/* <App3 /> */}
+    {/* <App4 /> */}
+    <App5 />
     </>
   )
 }

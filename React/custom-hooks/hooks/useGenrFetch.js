@@ -2,13 +2,16 @@ import React ,{useEffect , useState } from 'react'
 function useGenrFetch(url)
 {
     const [data , setData] = useState(null);
+    const [loading , setLoading] = useState(true);
 
     useEffect(()=>{
     try {
         async function fetchData(){
+            setLoading(true);
             const payload = await fetch(url);
             const final = await payload.json();// converting JSON string to JS object 
             setData(final);
+            setLoading(false);
         }
 
         fetchData();
@@ -18,7 +21,10 @@ function useGenrFetch(url)
     // when useGenrFetch is called again 
 
 
-    return data;
+    return ({
+        post : data , // we are reciving there as post 
+        loading : loading
+    })
 
 }
 

@@ -1,9 +1,10 @@
+
 import React , {useState} from 'react'
-import useGenrFetch from '../hooks/useGenrFetch'
+import useGenrReFetch from '../hooks/useGenrReFetch'
 
 function APP(){
     const [currentPost , setCurrentPost] = useState(1);
-    const {post , loading} = useGenrFetch("https://jsonplaceholder.typicode.com/posts/" + currentPost);
+    const {post , loading} = useGenrReFetch("https://jsonplaceholder.typicode.com/posts/" + currentPost , 2);
 
     function DisplayPost(){
         //if(post === null) return <div>Loading</div>(first method for loading)

@@ -79,3 +79,6 @@ useRef - Is used to create ref. to a component
 // only using useState for forced re-render
 
 // Talking about global variable we have initialize it outside the export function which i disadvantage
+
+2nd use case if we initialize as const ref = useRef() // then intial value will be indefined
+If we initialize it as const ref = useRef(null)
