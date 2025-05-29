@@ -9,6 +9,7 @@ import App2 from '../Components/useFetch'
 import App3 from '../Components/GenruseFetch'
 import App4 from '../Components/GenericRe-Fetch'
 import App5 from '../Components/use-Prev'
+import App6 from '../Components/useDebounce'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -19,7 +20,8 @@ function App() {
     {/* <App2 /> */}
     {/* <App3 /> */}
     {/* <App4 /> */}
-    <App5 />
+    {/* <App5 /> */}
+    <App6 />
     </>
   )
 }
