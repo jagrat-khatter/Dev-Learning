@@ -1,0 +1,19 @@
+// If a component uses useContext(context1), it will re-render when that context value changes — 
+// no matter where it appears in the component tree.
+
+// A component will re-render due to context change only if it itself uses the context via 
+// useContext(context1) (or context1.Consumer in class components).
+// Children that use context will re-render independently, even if the parent doesn't.
+
+// When context value changes, Context.Provider re-renders, but it does not automatically 
+// re-render all its children.
+
+// Only those components that use the context value (useContext(context1)) will re-render.
+
+// Other components will not re-render unless:
+
+// They receive new props, or
+
+// Their state changes, or
+
+// Their own parent re-renders due to other causes (not context propagation).

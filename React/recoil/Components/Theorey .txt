@@ -1,0 +1,51 @@
+// If a component uses useContext(context1), it will re-render when that context value changes — 
+// no matter where it appears in the component tree.
+
+// A component will re-render due to context change only if it itself uses the context via 
+// useContext(context1) (or context1.Consumer in class components).
+// Children that use context will re-render independently, even if the parent doesn't.
+
+// When context value changes, Context.Provider re-renders, but it does not automatically 
+// re-render all its children.
+
+// Only those components that use the context value (useContext(context1)) will re-render.
+
+// Other components will not re-render unless:
+
+// They receive new props, or
+
+// Their state changes, or
+
+// Their own parent re-renders due to other causes (not context propagation).
+
+// They use some context and even a single property in that context is changed
+
+In Recoil, an atom represents a piece of sharable, writable state.
+
+Think of it as the fundamental unit of state in your application.
+
+Sharable: Multiple components can subscribe to an atom. When the atom's value changes, 
+all subscribed components will re-render with the new value.
+
+Writable: You can update the value of an atom from anywhere in your application 
+(typically using hooks like useSetRecoilState or useRecoilState).
+
+Unique Key: Each atom has a unique key that identifies it within your application
+.
+Default Value: Atoms have a default value
+
+A selector in Recoil represents a piece of derived state.
+Derived state is a transformation of state. You can think of it as the output of a pure 
+function that takes other atoms or selectors as input
+
+Selectors are most commonly used for reading derived data. The get function you've defined 
+is responsible for calculating this derived value.
+
+However, selectors can also have a set property, which allows you to write back to the 
+underlying atoms in a controlled way. If a selector has a set property, it's considered a 
+"writable selector."
+
+A component subscribing to a selector will only re-render if the selector's derived value changes.
+
+If an underlying atom changes, but the result of the selector's get function remains the 
+same, the component subscribing to that selector will not re-render.
