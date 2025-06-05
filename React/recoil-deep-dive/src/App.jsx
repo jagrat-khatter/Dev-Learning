@@ -4,6 +4,8 @@ import viteLogo from '/vite.svg'
 import App1 from '../Components/Recoil1'
 import App2 from '../Components/Recoil2'
 import App3 from '../Components/Recoil3'
+import App4 from '../Components/Recoil4'
+import App5 from '../Components/Recoil5'
 import './App.css'
 
 function App() {
@@ -12,7 +14,9 @@ function App() {
   return (<>
   {/* <App1 /> */}
   {/* <App2 /> */}
-  <App3 />
+  {/* <App3 /> */}
+  {/* <App4 /> */}
+  <App5 />
   </>)
 }
 

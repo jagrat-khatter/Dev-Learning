@@ -37,6 +37,6 @@ model.update(
 model.deleteMany(
     {}
 )
-mode.deleteOne(
+model.deleteOne(
     {username : "jagrat12_13" }
 )
