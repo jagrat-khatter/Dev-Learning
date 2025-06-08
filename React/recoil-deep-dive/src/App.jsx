@@ -6,6 +6,7 @@ import App2 from '../Components/Recoil2'
 import App3 from '../Components/Recoil3'
 import App4 from '../Components/Recoil4'
 import App5 from '../Components/Recoil5'
+import App6 from '../Components/Recoil6'
 import './App.css'
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
   {/* <App2 /> */}
   {/* <App3 /> */}
   {/* <App4 /> */}
-  <App5 />
+  {/* <App5 /> */}
+  <App6 />
   </>)
 }
 
