@@ -9,6 +9,7 @@ const Counter = ()=> {
     console.log("RENDER");
     return <div>{Total_Count ? "EVEN" : "ODD"}</div>
 }
+
 const TopBar =()=>{
     const notificationsCount = useRecoilValue(notificationsAtom);
     const networkCount = useRecoilValue(networkAtom);
@@ -36,5 +37,6 @@ function APP()
     </>)
     // If in total count we want to see even values only
 }
+
 
 export default APP

@@ -22,6 +22,7 @@ function App() {
       Ref1.current.innerHTML = 10;
     } , 5000)
   } , [])
+  
   return (
     <> 
     <div ref={Ref1}>At present count is {count}</div>
