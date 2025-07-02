@@ -1,20 +1,13 @@
 /* src/index.css */
-@import "tailwindcss"; /* This is enough! */
-
-@theme {
-  --color-red-500: #ffff00;
-  --color-darkBlue-900: #002a5a;
-  --color-darkBlue-700: #19406b;
-  --color-darkBlue-600: #97BCE4;
-  --color-skyBlue-500: #41e2d1;
-  --color-grey-500: #7f95ac;
-  --color-white-500: #fcfdfc;
-
+ 
+/* @theme @import @source @utilities @variant these are called directives*/
+body{
+  background-color:  #10172a;
 }
 
  /* can also modify breakpoints width any many much more */
 /* With Tailwind CSS v4 and the Vite plugin, it automatically scans your files using smart 
-defaults. Your current setup is perfectly fine: */
+defaults. Your current setup is perfectly fine: */ 
 
  /* When you would add content configuration:
 Only if you have unusual file locations:

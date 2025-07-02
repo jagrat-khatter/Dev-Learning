@@ -1,0 +1,20 @@
+@import "tailwindcss"; /* This is enough! */
+
+@theme {
+  --color-red-500: #ffff00;
+  --color-darkBlue-900: #002a5a;
+  --color-darkBlue-700: #19406b;
+  --color-darkBlue-600: #97BCE4;
+  --color-skyBlue-500: #41e2d1;
+  --color-grey-500: #7f95ac;
+  --color-white-500: #fcfdfc;
+
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+/* 
+means that if the main HTML tag (or any parent element) has class="dark", then any styles with 
+the dark: prefix (like dark:bg-darkBlue-600) will be applied.
+
+When there’s no "dark" class (or any other class):
+Only the default styles (e.g., bg-white) are applied. */

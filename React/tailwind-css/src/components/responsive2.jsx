@@ -19,5 +19,4 @@ function APP()
 // The other divs have default text size, so they are shorter in height.
 // All three divs have the same width (because of col-span-3), but the first one is 
 // taller due to the bigger text.
-
 export default APP
