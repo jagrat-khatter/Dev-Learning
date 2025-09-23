@@ -12,7 +12,7 @@ export const todoAtomFamily= selectorFamily({
     key : "todoAtomFamily2" ,
     get : (id) => async ({get}) => {
         // the get provided by recoil is not being used 
-        // the get of recoil is being used 
+        // the get of axios is being used 
             await new Promise(resolve => setTimeout(resolve , [3000]));
             const res = await axios.get(`http://localhost:3000/todo?id=${id}`)
             return res.data ;

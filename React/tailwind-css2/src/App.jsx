@@ -4,7 +4,7 @@ import viteLogo from '/vite.svg'
 import {SidebarClass1} from './components/SidebarClass1'
 import {Sidebar2Transition} from './components/Sidebar2Transition'
 import {DarkModePage} from './components/DarkMode'
-import LandingPage from './assignment_components/AsgnmtPage'
+import LandingPage from './assignment_page/AsgnmtPage'
 import './App.css'
 
 function App() {

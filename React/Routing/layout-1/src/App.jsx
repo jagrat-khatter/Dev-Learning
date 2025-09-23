@@ -30,7 +30,7 @@ function App() {
   function Layout(){
     return <div style={{height : "100vh"}}>
       <div><Link to="/">Allen</Link> || <Link to="/neet/class11">Class 11</Link> || <Link to="/neet/class12">Class 12 </Link> </div>
-      <Header />
+      <Header /> 
       <div style={{height : "90vh" , backgrounf : "red"} }> <Outlet /></div>
       Footer
     </div>

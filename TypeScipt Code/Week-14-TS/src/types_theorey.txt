@@ -1,0 +1,54 @@
+when you create a type it represents an infinte set 
+example 
+type User = {
+    name : string ;
+    age : number ;
+}
+
+so the set it reprsents includes
+{
+    name : "" ,
+    age : 0
+}
+{
+    name : "" ,
+    age : -1
+}
+{
+    name : "hd" ,
+    age : 4
+}
+{
+    name : "jkd&#*" ,
+    age : -3.4
+}
+{
+    name : "hjfd" ,
+    age : 21 ,
+    country : 78
+}
+{
+    name : "ddc$$" ,
+    age : 8 ,
+    random : random8 ,
+    random2 : random3
+}..................................ans many more you get it 
+
+this random type of object cannot be assigned directly due to extreal checks
+const obj1 : User  = {         (!!!!   CANNOT BE DONE)
+    name : "ddc$$" ,
+    age : 8 ,
+    random : random
+}
+
+hack to bypass 
+const obj = {
+    name : "ddc$$" ,
+    age : 8 ,
+    random : random
+}
+const obj1: User  =  {
+    name : "ddc$$" ,
+    age : 8 ,
+    random : random
+}

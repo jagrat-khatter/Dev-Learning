@@ -13,6 +13,9 @@ const tempCelsius = selector({
       tempFahrenheit,
       newValue instanceof DefaultValue ? newValue : (newValue * 9) / 5 + 32
     ),
+
+    // now if user press reset then set gets newValue which contains recoil object Default value 
+    // then tempFahrenheit sets is value as default and then temCelcius is calculated
 });
 
 function APP() {
