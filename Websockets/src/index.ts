@@ -1,10 +1,10 @@
-import { WebSocketServer } from 'ws';
+import { WebSocketServer  , WebSocket} from 'ws';
 
 const wss = new WebSocketServer({port : 8080})
 
 
 // event listener for the WebSocket server. It listens for new client connections.
-wss.on('connection' , (socket)=>{
+wss.on('connection' , (socket: WebSocket)=>{
 
     console.log("User connected")
 

@@ -1,0 +1,139 @@
+While connecting through psql library in terminal use psql "connection_string"
+
+If you insert data through gui and then terminal UNIQUE feature may not work bcoz they might be syncing data in different ways 
+to exit psql enviroment \q
+The query does not complete until you end with ; so dont care about new line and pressing enter
+\q
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+\dt;
+
+INSERT INTO users (username, email, password)
+VALUES ('username_here', 'user@example.com', 'user_password');
+
+UPDATE users
+SET password = 'new_password'
+WHERE email = 'user@example.com' && username = 'John';
+
+DELETE FROM users
+WHERE id = 1;
+
+SELECT * FROM users (gives all users)
+
+
+
+SELECT email FROM users
+WHERE id=12;
+
+
+SELECT COUNT(*) FROM users WHERE username = 'jagrat'; (finding count of rows)
+
+// If you want to perform SQL injections do this 
+{
+    "username" : "jagrat99",
+    "password" : "poimif@@#**'); DELETE FROM users; INSERT INTO users (username,email,password) VALUES ('jagrat74', 'jagra345tkhatter123@gmal.com', 'poimi435f@@#**",
+    "email" : "jagratkhatter123@gmal.com"
+}
+
+// PART - 2
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE addresses (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    street VARCHAR(255) NOT NULL,
+    pincode VARCHAR(20),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+ON DELETE CASACDE means if we delete i delete a user entry then all the correspoding addresses 
+having foreign key as id of that users table will automatically deleted
+
+If there are multiple tables that use foreign key as id of users table and have DELETE CASCADED implemented
+then all the entries corresponding to that id will get deleted in multiple tables
+
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+Here orders table uses id Primary Key of users as foreign key but has not implemented DELETE CASCADE
+so if we try to delete a user entry whose order is present in order table and is referencing through 
+foreign key , ALL RELATIONAL DATABASES HAVE this ON DELETE RESTRICT.
+It blocks deletion of a parent row (the user) if there are dependent rows (orders) referencing it.
+
+But if we try to delete order entry which it will get deleted bcoz it is a children refrencing it 
+
+*** SPECIAL CASE***
+users ──< addresses ──< orders
+  ^                     |
+  └─────────────────────┘
+addresses table entries are referencing users table entries and order table entries are referencing 
+entries of addresses table , and users table entries are refrencing the entries of orders table 
+each type of referencing is CASCADED DELETE then if we delete any entry corresponding to a user 
+in any table users, addresses, orders all corresponding entries in other table will also get deleted
+.
+ANOTHER CASE
+users → addresses → orders → users
+but this is a deadlock case which may lead to infinte loop 
+
+In a TRANSACTION if you want all changes to happen or nothing to happen .
+If transaction is bound to failed then above the failure points the code is executed to be used 
+in further code and everything can be logged properly but if it never reached commit is it rolled back 
+
+// JOINS TYPE
+INNER JOIN(DEFAULT)
+Returns rows when there is at least one match in both tables. If there is no match, the rows are not 
+returned. It's the most common type of join.
+Use Case: Find All Users With Their Addresses. If a user hasn’t filled their address, that user 
+shouldn’t be returned
+
+LEFT JOIN
+Returns all rows from the left table, and the matched rows from the right table.
+Use case - To list all users from your database along with their address information (if they've 
+provided it), you'd use a LEFT JOIN. Users without an address will still appear in your query 
+result, but the address fields will be NULL for them.
+
+RIGHT JOIN
+Returns all rows from the right table, and the matched rows from the left table.
+Use case - Given the structure of the database, a RIGHT JOIN would be less common since the addresses
+table is unlikely to have entries not linked to a user due to the foreign key constraint. However,
+if you had a situation where you start with the addresses table and optionally include user information, 
+this would be the theoretical use case.
+
+FULL JOIN
+Returns rows when there is a match in one of the tables. It effectively combines the results of 
+both LEFT JOIN and RIGHT JOIN.
+Use case - A FULL JOIN would combine all records from both users and addresses, showing the 
+relationship where it exists. Given the constraints, this might not be as relevant because every 
+address should not be linked to a user, but if there were somehow orphaned records on either side, 
+this query would reveal them.
+
+IN this we have implemented relational join based on a foreign key relationship.
+
+To get full feel of all teh JOIN types make a two tables, in first table have two entries where id=2
+and in another table have 4 entries with user_id=4 dont have relationship in them and then use these
+types of joins and see how they are appended.
+SELECT * 
+FROM users, addresses
+WHERE users.id = 2 AND addresses.user_id = 4;
+
+This is called cartesian join
