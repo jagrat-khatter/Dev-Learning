@@ -1,15 +1,16 @@
 import { Client }  from 'pg' 
 import  express  from 'express'
+import dotenv from "dotenv";
 import type {Request , Response} from 'express'
 const app = express();
 app.use(express.json());
 const PORT = 3000;
-const pgClient =  new Client("postgresql://neondb_owner:npg_xuy0BawZUnN4@ep-raspy-water-ad9gj6jg-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require")
-//postgresql://neondb_owner:npg_SNR7yKCo8Guv@ep-curly-moon-aa007mm3-pooler.westus3.azure.neon.tech/neondb?sslmode=require&channel_binding=require
+const pgClient =  new Client(process.env.DATABASE_URL)
+
 const pgClient2 = new Client({
     user: "neondb_owner" ,
     database: "neondb" ,
-    password: "npg_SNR7yKCo8Guv" ,
+    password: process.env.PG_PASSWORD,
     port: 5432 ,
     host: "ep-curly-moon-aa007mm3-pooler.westus3.azure.neon.tech" ,
     ssl: true
