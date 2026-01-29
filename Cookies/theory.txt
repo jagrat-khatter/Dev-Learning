@@ -1,0 +1,134 @@
+Cookies in web development are small pieces of data sent from a website and stored on the 
+user's computer by the user's web browser while the user is browsing. They are designed to be
+a reliable mechanism for websites to remember things (very similar to local storage)
+
+Session Management: Cookies allow websites to identify users and track their individual 
+session states across multiple pages or visits.
+
+Personalization: Websites use cookies to personalize content and ads. For instance, cookies 
+might store information about a user's preferences, allowing the site to tailor content or 
+advertisements to those interests.
+
+Tracking: Cookies can track users across websites, providing insights into browsing behavior.
+This information can be used for analytics purposes, to improve website functionality, or for
+advertising targeting.
+
+Security: Secure cookies can be used to enhance the security of a website by ensuring that the
+transmission of information is only done over an encrypted connection, helping to prevent
+unauthorized access to user data.
+
+A page cannot access your localStorage in the very first request
+So thats for the first page if you want to use SSR benefits you use cookies
+
+You may think that if a page is loaded which has access to localStorage then on going 
+to other page you may use localStorage jwt and still enjoy benefits of SSR but that is not 
+the case because in cross page navigation you cannot send headers, if you send it like to send 
+via params then and try to make it server side that type of redirection is not like fully server
+side it is like in sync with client side and you do not enjoy benefits of server side.
+
+A page can be loaded fully server side, when it is 
+-> First page load
+-> Hard refresh 
+-> Direct url entry
+
+If a user navigates to a page in a Next.js application via client-side redirection (Link, router.push) 
+rather than via an initial page load, hard refresh, or direct URL entry, the page will not be 
+server-side rendered as a new HTML document, and therefore the full benefits of classic 
+SSR—such as improved first paint and SEO—are not realized, even if all components on that 
+page are written as server components.
+
+
+It is incorrect to say that localStorage cannot be used in Next.js; it can be used, but only 
+on the client side because it is a browser-only API. When a JWT is stored in localStorage, 
+the server cannot access it during the initial page request, so authentication-dependent 
+content cannot be server-side rendered. Even during page-to-page navigation in Next.js using 
+Link or router.push, classic server-side rendering of a new HTML document does not occur; the
+navigation is client-driven, and although server code (such as React Server Components or 
+data fetching) may execute, the JWT stored in localStorage is still inaccessible to the 
+server because no custom headers can be attached to navigation requests. As a result, 
+localStorage-based JWTs can never participate in authenticated SSR—neither on the first 
+page load nor on subsequent navigations. In contrast, when the JWT is stored in cookies, 
+it is automatically included in every HTTP request, including the initial document request 
+and server executions during navigation, allowing the server to authenticate the user before 
+rendering and thus preserving the full benefits of server-side rendering without requiring 
+client-side control.
+
+Now first of all what are Same Origin and Same site
+
+https://app.example.com:2020
+Scheme/Protocol + subdomain + domain + eTLD(extended Top level domain ex .com or .co.uk) + Port
+
+In same origin everything should be same Protocol+subdomain+domain+eTLD+Port 
+but in same site 
+subdomain and port can be different but everything else Protocol, domain,eTLD should be same
+
+Ex-
+https://**blog**.mywebsite.com	https://**shop**.mywebsite.com	diff:Subdomain (same site,diff origin)
+https://localhost	https://localhost**:8080**	 diff:Port (same site,diff origin)
+https://google.com	https://google.**co.uk**	diff:eTLD (diff site,diff origin)
+https://github.com	https://gitlab.com    diff:Domain  (diff site,diff origin)
+**http**://example.com	**https**://example.com	  diff:Scheme/Protocol (diff site,diff origin)
+
+>>> If the "Site" doesn't match, the "Origin" can never match, but converse is not true.
+
+CORS - Cross origin request service
+CSRF - Cross site request forgery
+
+Understand Cookie as a badge, whenever a request is to be sent to a specific origin(be it backend
+or frontend) if that cookie is for that origin then that badge is always sent if a request is 
+triggered to that origin. This way by seeing the badge origin can verify that this request triggered
+is valid and shall be fulfilled.
+
+Now here comes a vurnerability what if this request is triggered by some other frontend/script
+on client example https://transfer.hdfcbank/23424/78287/10000 and the cookie is also sent with 
+this request then this attack is successful. To prevent this there is concept of SameSite.
+
+How triggering can happen either that malicious website opened on client has a script that hits url,
+image which when broswer tries to resolve results in hitting the url, or iframe when resolved hits 
+the url.
+
+>>> A frontend/script cannot directly get access to cookie if loaded on client, they can only trigger
+a request and along with request to a origin a cookie for that origin will be sent from clients browser
+
+SameSite : None , Lax(default if not set to strict by modern browsers) , Strict
+
+If SameSite:None then any malicious website can trigger request opening CSRF attack vector
+SameSite: Strict , only request trigger
+
+If SameSite:Strict then the cookie will be sent to origin only if the request is triggered by same 
+site (domain and port can be diff)
+
+If SameSite:Lax then the can be sent to origin if triggering happens through other site or same 
+but there are some restriction to it no script, image,iframe resolving can result in triiggering 
+and only get request will be proccessed. Some usecase is suppose i am on website showing best airlines
+to travel if i click on one of them then the airline website will open and i should not be request 
+to signin.
+
+How backend interacts with FE,if there is CORS in BE it sees the whitelist of all the origins 
+if the origin from where request came(FE) matches be it on different site then that request is 
+fullfilled by backend else ignored.
+
+In axios request/CORS define you have to included withCredentials=true , and in on extra thing
+in CORS definement is whitelist of origins
+
+Here is the rule nicely summarized: (IF FE,BE on same origin,same site,diff site)
+
+1. Same Site + Same Port = "Same Origin"
+Example: FE on mysite.com calls BE on mysite.com/api
+Rules:
+No CORS needed.
+No withCredentials needed. (Cookies are sent automatically).
+
+2. Same Site + Different Port/Subdomain = "Cross Origin"
+Example: FE on localhost:5173, BE on localhost:3000. (Or app.site.com vs api.site.com).
+Rules:
+CORS Whitelist is REQUIRED. (Because origin changed).
+withCredentials: true is REQUIRED. (Because browsers block cookies for any cross-origin request by default).
+
+3. Different Site = "Cross Origin"
+Example: FE on vercel.app, BE on railway.app.
+Rules:
+CORS Whitelist is REQUIRED.
+withCredentials: true is REQUIRED.
+Extra Step: Cookies must be SameSite: "none" and Secure: true (HTTPS).
+

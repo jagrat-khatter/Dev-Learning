@@ -1,0 +1,58 @@
+import { PrismaClient } from '@prisma/client';
+// 
+
+const client = new PrismaClient();
+
+const createUser = async ()=>{
+    await client.user.create({
+        data:{
+            username: 'jagrat',
+            password: 'jagr---',
+            age: 19,
+            city: 'Chandigarh'
+        }
+    })
+
+    await client.user.create({
+        data:{
+            username: 'ishant',
+            password: 'aussie',
+            age: 21,
+            city: "Hoshiarpur"
+        }
+    })
+
+}
+const deleteUser = async ()=>{
+    await client.user.delete({
+        where: {
+            id : 1
+        }
+    })
+}
+const updateUser = async ()=>{
+    await client.user.update({
+        where: {
+            id : 3
+        },
+        data:{
+            city : 'Bengaluru'
+        }
+    })
+}
+const findUser = async ()=>{
+    const e = await client.user.findFirst({
+        where: {
+            id : 3
+        },
+        include: {
+            todos : true
+        }
+    })
+
+    console.log(e);
+}
+//deleteUser()
+//createUser()
+//updateUser()
+findUser()

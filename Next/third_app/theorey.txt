@@ -1,0 +1,174 @@
+(content) just skips the the content from url but routing flow is completely followed
+useful when you want a common layout in two or three pages so you can put them in that folder
+and skip name of that folder from url
+
+previous/[slug] for dynamic things it is used, params is promise now 
+
+previous/[...slug] if there are lot of slugs to be expected then this stores them in an array
+
+previous/[[...slug]] if you want to include (previous/) in the flow of previous/[...slug]
+so that you dont have to create seprate page.tsx for it then use this 
+
+
+If there is route like blogs/[postId]/[...moduleId] 
+in the page.tsx for blogs/postId {params} will be of type 
+type Params = {
+    params : Promise<{
+        postId: string;
+    }>
+}
+in the page.tsx for blogs/postId/23/fsd/43/jjjjk {params} will be of type 
+type Params = {
+    params : Promise<{
+        postId: string;
+        moduleId: string[];
+    }>
+} and moduleID=['23','fsd','43','jjjjk']
+
+
+Now coming to hydration part 
+
+First we need to understand what are server side components and what are client side
+components
+
+SSG(static site generation) - When there is nothing to be changed in like pure text 
+ <div>Hi there</div>. Now after next js 13 it has become smart to automatically 
+ identify which pages are static which are not. But in case where there are dynamicRoutes
+ but that page is static you have explicitlly tell next js that this page is static
+ by using getStaticPaths and getStaticProps
+
+ Static Pages have entire page static , and static components are just components and their html is 
+ just added when stiched with other components  
+
+What is harm if a static page is considered as server side, there will be a scan happening every time 
+to check if you have to fetch something or load something before dilevering but when a page is considered
+static only one time a scan happens to build html(that will not change in future and by client type)
+when you do build and then it is just distributed as html by CDN and no scan happens for each request by 
+server.
+
+A component that is sending request in to backend getting some text rendering it server
+side and then dilevering to client is not static Page but comes under Server Side 
+components
+
+All static Pages are subset of server side Components but not all server side components are 
+static page.
+
+Server components are those which are prepared on server and then dilevered to 
+client in these components there is no interactivity , such as button, text-box and 
+other client side features.But they can include client side components with them.
+
+Client components are those whose some part is preapared on server and 
+then some part has interactivity that is to be run on client broswer so so premature 
+rendering is done on server and with that html file a page.js is sent to hydrate that
+html file and bring interactivity to it 
+
+So the statement that server components are rendered on server and client components are 
+rendered on client in not true , becuase a premature rendering happens for client components
+on server and that complete rendering happens on client with page.js (Hydration)
+
+Server Components - Rendered on server + html is sent
+Client components - Rendered on server(not completely) + hydrated on client  
+
+Now cases where we use client components
+
+
+1. Interactivity
+Components that require user interaction, such as:
+Buttons with onClick handlers.
+Forms with onSubmit handlers.
+Dynamic state management using React hooks like useState or useReducer.
+
+2. Browser-Specific APIs
+Components that rely on browser-only APIs, such as:
+window, document, or navigator.
+localStorage, sessionStorage, or cookies.
+alert, prompt, or confirm.
+
+3. Animations
+Components that use libraries like framer-motion or CSS-in-JS for animations.
+Animations require JavaScript to run in the browser.
+
+4. Real-Time Updates
+Components that rely on real-time updates, such as:
+WebSockets.
+EventSource (Server-Sent Events).
+Polling APIs.
+
+5. Input Fields and Forms
+Components that handle user input, such as:
+Text inputs, checkboxes, radio buttons, etc.
+Controlled components using useState.
+
+Cases where we use server side components
+
+1. Static or Dynamic Content Rendering
+Rendering content that does not require interactivity, such as:
+Blog posts.
+Product pages.
+Marketing pages.
+
+2. Data Fetching
+Fetching data directly from a database or API on the server.
+This avoids exposing sensitive logic to the client.
+
+3. SEO Optimization
+Pages that need to be fully rendered on the server for better SEO, such as:
+Landing pages.
+E-commerce product pages.
+
+4. Heavy Computation
+Components that perform heavy computations, such as:
+Data processing.
+Image manipulation.
+Complex calculations.
+
+5. Authentication and Authorization
+Components that require server-side logic to check user authentication or permissions.
+
+Hydration - Is done by js framework such as react and then interactivity is brought 
+to that premature html page , it also renders the entire component on client also 
+and matches the one created on server side, so function like curr.getTime() on server
+side component it will give hydartion error because html premture and during hydration
+will not match.
+
+
+What do you do when you want to design a button which has something written on it but on clicking
+on it nothing happens ?
+The mere fact that a button is "clickable" by default (due to browser behavior) doesn't make 
+it interactive in the React sense. Interactivity for Client Components involves dynamic, 
+JavaScript-driven behavior beyond the default HTML semantics. If the button does nothing 
+beyond being visually present, it should remain a Server Component. 
+
+Like if you want to make a page layout
+
+Then there will be 3 sub components Nav , Page , Footer
+
+In Nav there will be two parts logo(never changes) and Links(make it client component)
+In page there will be two parts posts(never changes due to interactiveness) and like(make it 
+client components)
+In footer if there will be static links use anchor tags over text written(server components)
+if links are conditional and can change then use next/link (client side components)
+
+
+*** There can be misconception that if components are rendered on hydration then it kills 
+all the benefits of next js ,
+-> No hydration and js cost is there in Server components
+-> If you are defining some task under client components , then in server side only html 
+skelton and real dom will be created, when this html and js reaches client hydration happens
+virtual dom is built again and cheap client safe logic is used to build the virtual dom 
+and then matched and then interactivity is added then that task can be initiated , there is 
+option of performance Optimization if you make maximum components possible as server components
+
+EX: if you Date.now() nakedly on server side component then it will give hydration error 
+cause it is cheap task so when hydration happens clinet fetches the latest date and when they 
+try to match withh the time by server it dies not match .
+So you should use Date.now() inside useEffect cuz useEffect does not run on server side 
+so it will not be included in html sent and then it will not give matching errors
+
+
+If a user navigates to a page in a Next.js application via client-side redirection (Link, router.push) rather 
+than via an initial page load, hard refresh, or direct URL entry, the page will not be 
+server-side rendered as a new HTML document, and therefore the full benefits of classic 
+SSR—such as improved first paint and SEO—are not realized, even if all components on that 
+page are written as server components.
+

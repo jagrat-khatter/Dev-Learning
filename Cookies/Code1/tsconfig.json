@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    
+    // "nodenext" is the modern standard for Node.js
+    "module": "nodenext", 
+    "moduleResolution": "nodenext",
+    "target": "es2022", // High enough for modern features, safe for Node 18+
+
+    // FIX: Using "types": [] breaks "console.log" and "process".
+    // We remove it so TS can find @types/node automatically.
+    // "types": [], 
+
+    "sourceMap": true,
+    "esModuleInterop": true, // Helps importing old CommonJS packages
+    
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*"]
+}
