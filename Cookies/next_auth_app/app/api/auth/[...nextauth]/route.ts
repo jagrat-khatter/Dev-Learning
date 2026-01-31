@@ -1,24 +1,8 @@
+import { NEXT_AUTH_CONFIG } from "@/app/lib/auth";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const handler = NextAuth({
-    providers:[
-        CredentialsProvider({
-            name: "Credentials" ,
-            credentials :{
-                username : {label: "Username" , type: "text" , placeholder: "Jagrat K"} ,
-                password : {label: "Password" , type: "password"} 
-            },
-            async authorize(credentials , req){
-                const user = {id:"1" , username:"Smith" , email: "jsmith@gamil.com"};
-    
-                if(user) return user;
-                else return null;
-            }
-        })
-    ],
-    secret: process.env.NEXTAUTH_SECRET
-})
 
+const handler = NextAuth(NEXT_AUTH_CONFIG);
 
 export { handler as GET, handler as POST }
