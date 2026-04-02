@@ -132,3 +132,82 @@ CORS Whitelist is REQUIRED.
 withCredentials: true is REQUIRED.
 Extra Step: Cookies must be SameSite: "none" and Secure: true (HTTPS).
 
+********** This theorey corresponds to next_auth_app 
+
+1. The Login Moment (Authentication)
+When you click "Login", NextAuth runs your authorize function.
+
+You return: { id: "1", username: "Smith", email: "..." }
+Problem: NextAuth is paranoid. It doesn't trust you. It takes that user object and instantly 
+throws away everything except the default fields (name, email, image).
+Why: Security. It minimizes the payload size.
+2. The JWT Callback (Persistence)
+This is your FIRST CHANCE to save that extra data.
+
+Context: NextAuth is about to create the JSON Web Token (JWT) that will live in the user's
+browser cookie.
+Role of jwt Callback: It says: "Hey, before you seal this envelope (Cookie), let me slip 
+in some extra notes."
+
+What you did: You copied user.id and user.username into the token.
+Result: The cookie now secretly holds { ...token, id: "1", username: "Smith" }.
+3. The Session Callback (Access)
+This is your SECOND CHANCE to expose that data.
+
+Context: The frontend (Browser) asks for the user details (useSession) or the backend asks 
+(getServerSession).
+Role of session Callback: NextAuth reads the secure cookie (Token) but again, by default, 
+hides everything from the application to keep the interface clean standard.
+What you did: You told NextAuth: "When the app asks for the session, verify the token, 
+notice my custom fields (token.id, token.username), and copy them onto the session object explicitly."
+
+Part 2: Why did useSession work but getServerSession failed?
+You noticed a weird behavior:
+
+Frontend (useSession): It "just worked" (or seemed to).
+Backend (getServerSession): It failed (returned empty) until you passed the config.
+The Reason:
+
+useSession (Frontend): It doesn't read the config directly. It calls an internal API route 
+(/api/auth/session). That API route (created by NextAuth(OPTIONS)) already has your config. It runs the callbacks automatically because the handler was built with them.
+
+getServerSession (Backend): This is a standalone function running on the server.
+
+It doesn't "know" about your API route.
+
+It doesn't "know" about your callbacks.
+If you call it without config (getServerSession()), it uses defaults. It decrypts the cookie, 
+finds your token.id, but because it has NO SESSION CALLBACK CONFIG, it defaults to stripping 
+that data out again before giving it to you.
+When you passed AUTH_CONFIG: You gave it the instructions: "Hey, use this specific session 
+callback logic to unpack the token."
+Summary:
+
+JWT Callback: Saves data into the Cookie (Persistence).
+Session Callback: Reads data from Cookie -> Application (Exposure).
+Frontend Check: Works because the API handler holds the config.
+Backend Check: Fails unless you manually hand it the config instructions.
+
+We can also make a custom signin page then add page:"/signin" so as to set default endpoint
+in configuration and then redirection will never happen to page that nextauth gives as default
+
+SessionProvider uses React Context under the hood.
+
+Without it: If you have 50 components deep in your tree that need to know "Is the user 
+logged in?", you would have to pass session props down 50 levels (Prop Drilling).
+With it: Only the component at the very top (the Root) holds the session. Any component 
+anywhere in the app can just say useSession() to grab the data instantly.
+
+Why did we have to wrap it manually? Because SessionProvider needs to use React Context 
+(which uses useEffect, useState, etc.), it MUST be a Client Component. Since layout.tsx 
+(where the HTML <body> lives) is a Server Component by default in Next.js 13+, you cannot 
+import SessionProvider directly there. You must create a wrapper (providers.tsx) marked 
+with "use client" and import that into your layout.
+
+2. Other Types of Providers
+Almost every major library that manages global state uses a Provider.
+
+State Management: ReduxProvider (Redux), RecoilRoot (Recoil).
+Styling: ThemeProvider (Styled Components, Material UI, Tailwind Dark Mode).
+Data Fetching: QueryClientProvider (TanStack Query / React Query).
+Do they all need children? 
